@@ -1,7 +1,3 @@
-# this is the playbook file for configuring the installation of
-# different application on the remote servers 
-
-
 ---
 
 - hosts: all
