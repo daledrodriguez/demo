@@ -74,13 +74,7 @@
         mode: 0777
         owner: root
         group: root
-
-    - name: Configure Nagios
-      command: >
-        ./configure --with-command-group=nagcmd
-      args:
-        chdir: ~/nagios
-
+        
     - name: Compile and Install Nagios
       shell: |
         make all
