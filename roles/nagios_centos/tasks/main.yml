@@ -1,4 +1,3 @@
-make me a brief step by step process on each tasks on this playbook, just a brief one, dont make it too long, and make it step by step
 
 ---
     - name: Install Nagios Libraries
