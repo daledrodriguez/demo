@@ -76,11 +76,6 @@
         owner: root
         group: root
 
-    - name: Configure Nagios
-      shell: |
-        cd ~/nagios
-        ./configure --with-command-group=nagcmd
-
     - name: Compile and Install Nagios
       shell: |
         make all
