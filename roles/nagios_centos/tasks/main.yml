@@ -80,11 +80,11 @@
   - name: Nagios Start/Enable Check
     service:
       name: nagios
-      state: restarted
+      state: started
       enabled: true
 
   - name: Apache/httpd Start/Enable Check
     service:
       name: httpd
-      state: restarted
+      state: started
       enabled: true
