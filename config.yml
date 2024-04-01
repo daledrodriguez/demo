@@ -17,17 +17,16 @@
 
   
     - name: Ubuntu tasks
-      block:
+      hosts: ubuntu
+      
         - name: Install ufw (Uncomplicated Firewall) on Ubuntu
           ansible.builtin.apt:
             name: ufw
             state: present
-      when: ansible_distribution == "Ubuntu"
           
         - name: Enable SSH port (allow incoming SSH connections) on Ubuntu
           ansible.builtin.command:
             cmd: ufw allow ssh
-      when: ansible_distribution == "Ubuntu"
 
         - name: Enable firewall on Ubuntu
           ansible.builtin.command:
@@ -35,24 +34,22 @@
       when: ansible_distribution == "Ubuntu"
 
     - name: CentOS tasks
-      block:
+      hosts: centos
+      
         - name: Install firewalld on CentOS
           ansible.builtin.yum:
             name: firewalld
             state: present
-      when: ansible_distribution == "CentOS"
           
         - name: Start firewalld service on CentOS
           ansible.builtin.service:
             name: firewalld
             state: started
             enabled: yes
-      when: ansible_distribution == "CentOS"
 
         - name: Enable SSH port (allow incoming SSH connections) on CentOS
           ansible.builtin.command:
             cmd: firewall-cmd --permanent --add-service=ssh
-      when: ansible_distribution == "CentOS"
 
         - name: Reload firewall on CentOS
           ansible.builtin.command:
