@@ -1,24 +1,38 @@
 - name: Configure firewall for Ubuntu and CentOS
-  hosts: ubuntu:centos
+  hosts: all
   become: yes
   tasks:
+
+    - name: install updates (CentOS)
+      dnf:
+        update_cache: yes
+        update_only: yes
+      when: ansible_distribution == "CentOS"
+
+    - name: install updates (Ubuntu)
+      apt:
+        upgrade: dist
+        update_cache: yes
+      when: ansible_distribution == "Ubuntu"
+
+  
     - name: Ubuntu tasks
       block:
         - name: Install ufw (Uncomplicated Firewall) on Ubuntu
           ansible.builtin.apt:
             name: ufw
             state: present
+      when: ansible_distribution == "Ubuntu"
           
         - name: Enable SSH port (allow incoming SSH connections) on Ubuntu
           ansible.builtin.command:
             cmd: ufw allow ssh
-
-        # Add more Ubuntu-specific tasks here
+      when: ansible_distribution == "Ubuntu"
 
         - name: Enable firewall on Ubuntu
           ansible.builtin.command:
             cmd: ufw --force enable
-      when: ansible_os_family == 'Debian'
+      when: ansible_distribution == "Ubuntu"
 
     - name: CentOS tasks
       block:
@@ -26,18 +40,19 @@
           ansible.builtin.yum:
             name: firewalld
             state: present
+      when: ansible_distribution == "CentOS"
           
         - name: Start firewalld service on CentOS
           ansible.builtin.service:
             name: firewalld
             state: started
             enabled: yes
+      when: ansible_distribution == "CentOS"
 
         - name: Enable SSH port (allow incoming SSH connections) on CentOS
           ansible.builtin.command:
             cmd: firewall-cmd --permanent --add-service=ssh
-
-        # Add more CentOS-specific tasks here
+      when: ansible_distribution == "CentOS"
 
         - name: Reload firewall on CentOS
           ansible.builtin.command:
