@@ -1,23 +1,11 @@
 - name: Configure firewall for Ubuntu and CentOS
-  hosts: ubuntu:centos
+  hosts: all
   become: yes
   tasks:
-
-    - name: install updates (CentOS)
-      dnf:
-        update_cache: yes
-        update_only: yes
-      when: ansible_distribution == "CentOS"
-
-    - name: install updates (Ubuntu)
-      apt:
-        upgrade: dist
-        update_cache: yes
-      when: ansible_distribution == "Ubuntu"
   
     - name: Ubuntu tasks
       block:
-        - name: Install ufw (Uncomplicated Firewall) on Ubuntu
+        - name: Install ufw on Ubuntu
           ansible.builtin.apt:
             name: ufw
             state: present
